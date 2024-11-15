@@ -1,0 +1,76 @@
+.galleryWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+}
+
+.mainImage {
+  position: relative;
+  min-height: 400px;
+  background-color: var(--color-dark-50);
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+  overflow: hidden; /* Ensure content within the card does not overflow */
+
+  @media (max-width: 480px) {
+    min-height: 250px;
+  }
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  max-height: 100%; /* Ensure the image does not exceed the card's height */
+  object-fit: contain; /* Ensure images maintain aspect ratio */
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Adjust spacing between thumbnails */
+  overflow-x: auto; /* Add horizontal scrolling */
+  padding: 10px 0;
+  max-width: 100%; /* Ensure thumbnails span the full width */
+  position: relative;
+  flex-wrap: wrap; /* Prevent thumbnails from wrapping */
+
+  /* Add styles to show the scrollbar */
+  &::-webkit-scrollbar {
+    height: 8px; /* Adjust the height of the scrollbar */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-dark-50);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.thumbnail {
+  cursor: pointer;
+  border: 2px solid transparent;
+  position: relative; /* Ensure thumbnails are positioned relative to .thumbnails */
+  width: 60px; /* Define a width for each thumbnail */
+  height: 60px; /* Define a height for each thumbnail */
+  background-color: var(--color-dark-50);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.thumbnail.selected {
+  border: 1px solid #f15922;
+  border-radius: 15px;
+}
+
+.thumbnailImage {
+  object-fit: contain;
+  position: absolute; /* Ensures image fits within the .thumbnail container */
+  height: 100%; /* Fills the parent container */
+  width: 100%; /* Fills the parent container */
+}

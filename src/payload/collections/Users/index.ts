@@ -142,6 +142,16 @@ const Users: CollectionConfig = {
       ],
     },
     {
+      name: 'address',
+      label: 'Address',
+      type: 'text',
+    },
+    {
+      name: 'phone',
+      label: 'Phone Number',
+      type: 'text',
+    },
+    {
       name: 'skipSync',
       label: 'Skip Sync',
       type: 'checkbox',

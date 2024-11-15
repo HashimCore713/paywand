@@ -1,0 +1,17 @@
+@import "../../_css/common";
+
+.checkout {
+  width: 100%;
+
+  @include small-break {
+    margin-top: 0px;
+  }
+}
+
+.heading{
+  font-size: 30px;
+  font-weight: 600;
+  color: #f15922;
+  text-align: center;
+  padding: 30px;
+}

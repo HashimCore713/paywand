@@ -1,0 +1,106 @@
+@import '../../../_css/common';
+
+.items {
+  margin: 30px 0;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 80px 5fr 1fr;
+  gap: 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-dark-50);
+
+  @include small-break {
+    display: none;
+  }
+}
+
+.headerItemDetails {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+
+.headersubtotal {
+  text-align: end;
+}
+
+.subtotal {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.orderTotal {
+  margin-top: var(--base);
+  font-weight: 600;
+  text-align: end;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  margin-bottom: 60px;
+  background-color: var(--color-dark-50);
+  border-radius: 15px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0px;
+  }
+
+  // Style for including shipping fee note
+  .shippingNote {
+    font-size: 0.9em; // Adjust the size as needed
+    color: gray; // Light grey color
+    margin-left: 8px; // Adjust spacing as needed
+    font-weight: 200;
+  }
+}
+
+.payment {
+  margin-bottom: 40px;
+}
+
+.loading,
+.error {
+  margin-top: calc(var(--block-padding) - var(--base));
+}
+
+.back {
+  font-weight: 600;
+  transition: font-size 0.3s ease, color 0.3s ease, font-weight 0.3s ease; /* Smooth transition for font-size and color */
+
+  &:hover {
+    font-size: 110%; /* Increase font size by 10% */
+    color: darken(#000, 20%); /* Make text darker */
+  }
+}
+
+.payment_options{
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items vertically in the center */
+  margin-top: 20px; /* Adjust top margin as needed */
+}
+
+.payment_options.button {
+  flex: 1; /* Each button takes equal space */
+  margin-right: 10px; /* Adjust spacing between buttons */
+  white-space: nowrap; /* Prevent button text from wrapping */
+  text-align: center; /* Center button text */
+}
+
+.payment_options.button:last-child {
+  margin-right: 0px; /* Adjust spacing between buttons */
+}
+
+@media (max-width: 768px) {
+  .payment_options {
+    display: flex;
+    flex-direction: column; /* Display buttons vertically on small screens */
+    align-items: flex-start; /* Align items to the left */
+    margin-top: 10px; /* Adjust top margin as needed */
+  }
+  
+  .payment_options > * {
+    margin-bottom: 10px; /* Adjust spacing between buttons */
+  }
+}

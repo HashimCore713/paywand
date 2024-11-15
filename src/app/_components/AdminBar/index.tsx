@@ -43,7 +43,7 @@ export const AdminBar: React.FC<{
           }}
           key={user?.id} // use key to get the admin bar to re-run its `me` request
           cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
-          className={classes.payloadAdminBar}
+          className={classesd.payloadAdminBar}
           classNames={{
             user: classes.user,
             logo: classes.logo,

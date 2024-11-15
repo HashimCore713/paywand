@@ -18,5 +18,11 @@ export const Settings: GlobalConfig = {
       relationTo: 'pages',
       label: 'Products page',
     },
+    {
+      name: 'delivery',
+      label: 'Delivery Fee',
+      type: 'number',
+      required: true,
+    },
   ],
 }

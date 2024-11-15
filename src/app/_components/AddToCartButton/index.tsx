@@ -14,8 +14,9 @@ export const AddToCartButton: React.FC<{
   quantity?: number
   className?: string
   appearance?: Props['appearance']
+  disabled?: boolean // Add this line
 }> = props => {
-  const { product, quantity = 1, className, appearance = 'primary' } = props
+  const { product, quantity = 1, className, appearance = 'primary', disabled = false } = props
 
   const { cart, addItemToCart, isProductInCart, hasInitializedCart } = useCart()
 
@@ -26,6 +27,18 @@ export const AddToCartButton: React.FC<{
     setIsInCart(isProductInCart(product))
   }, [isProductInCart, product, cart])
 
+  const handleClick = () => {
+    if (disabled) return // Prevent action if disabled
+    if (isInCart) {
+      router.push('/cart') // Navigate to the cart page if the product is already in the cart
+    } else {
+      addItemToCart({
+        product,
+        quantity,
+      })
+      // router.push('/cart')          //enable to automatically redirect to Cart page
+    }
+  }
   return (
     <Button
       href={isInCart ? '/cart' : undefined}
@@ -38,21 +51,12 @@ export const AddToCartButton: React.FC<{
         classes.addToCartButton,
         appearance === 'default' && isInCart && classes.green,
         !hasInitializedCart && classes.hidden,
+        disabled && classes.disabled, // Add this line
       ]
         .filter(Boolean)
         .join(' ')}
-      onClick={
-        !isInCart
-          ? () => {
-              addItemToCart({
-                product,
-                quantity,
-              })
-
-              router.push('/cart')
-            }
-          : undefined
-      }
+      onClick={handleClick}
+      disabled={disabled} // Add this line
     />
   )
 }

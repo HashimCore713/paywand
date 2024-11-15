@@ -19,8 +19,14 @@ export const ORDER = `
         items {
           product ${PRODUCT}
           title
-          priceJSON
+          price
         }
+        name
+        address
+        phoneNumber
+        email
+        paymentMethod
+        status
       }
     }
   }

@@ -8,8 +8,6 @@ import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { image3 } from './image-3'
 import { product1 } from './product-1'
-import { product2 } from './product-2'
-import { product3 } from './product-3'
 import { productsPage } from './products-page'
 
 const collections = ['categories', 'media', 'pages', 'products']
@@ -107,8 +105,6 @@ export const seed = async (payload: Payload): Promise<void> => {
 
   payload.logger.info(`— Seeding products...`)
 
-  // Do not create product with `Promise.all` because we want the products to be created in order
-  // This way we can sort them by `createdAt` or `publishedOn` and they will be in the expected order
   const product1Doc = await payload.create({
     collection: 'products',
     data: JSON.parse(
@@ -119,51 +115,14 @@ export const seed = async (payload: Payload): Promise<void> => {
     ),
   })
 
-  const product2Doc = await payload.create({
+  // update product1 with related products
+  await payload.update({
     collection: 'products',
-    data: JSON.parse(
-      JSON.stringify({ ...product2, categories: [ebooksCategory.id] }).replace(
-        /"\{\{PRODUCT_IMAGE\}\}"/g,
-        image2ID,
-      ),
-    ),
+    id: product1Doc.id,
+    data: {
+      relatedProducts: [],
+    },
   })
-
-  const product3Doc = await payload.create({
-    collection: 'products',
-    data: JSON.parse(
-      JSON.stringify({ ...product3, categories: [coursesCategory.id] }).replace(
-        /"\{\{PRODUCT_IMAGE\}\}"/g,
-        image3ID,
-      ),
-    ),
-  })
-
-  // update each product with related products
-
-  await Promise.all([
-    await payload.update({
-      collection: 'products',
-      id: product1Doc.id,
-      data: {
-        relatedProducts: [product2Doc.id, product3Doc.id],
-      },
-    }),
-    await payload.update({
-      collection: 'products',
-      id: product2Doc.id,
-      data: {
-        relatedProducts: [product1Doc.id, product3Doc.id],
-      },
-    }),
-    await payload.update({
-      collection: 'products',
-      id: product3Doc.id,
-      data: {
-        relatedProducts: [product1Doc.id, product2Doc.id],
-      },
-    }),
-  ])
 
   payload.logger.info(`— Seeding products page...`)
 

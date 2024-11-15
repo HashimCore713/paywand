@@ -3,26 +3,30 @@ import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
-import { Page } from '../../../payload/payload-types'
+import { Category, Page, Product } from '../../../payload/payload-types'
 import { staticHome } from '../../../payload/seed/home-static'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchDocs } from '../../_api/fetchDocs'
+import { fetchNewProducts } from '../../_api/fetchNewProducts'
+import { fetchQuickCheckoutProducts } from '../../_api/fetchQuickCheckoutProducts'
 import { Blocks } from '../../_components/Blocks'
+import { Gutter } from '../../_components/Gutter'
 import { Hero } from '../../_components/Hero'
+import { HR } from '../../_components/HR'
 import { generateMeta } from '../../_utilities/generateMeta'
+import ShopInfo from '../../_components/ShopInfo'
+import Categories from '../../_components/Categories'
+import NewProducts from '../../_components/NewProducts'
+import QuickCheckout from '../../_components/QuickCheckout'
+import AboutUs from '../../_components/AboutUs'
 
-// Payload Cloud caches all files through Cloudflare, so we don't need Next.js to cache them as well
-// This means that we can turn off Next.js data caching and instead rely solely on the Cloudflare CDN
-// To do this, we include the `no-cache` header on the fetch requests used to get the data for this page
-// But we also need to force Next.js to dynamically render this page on each request for preview mode to work
-// See https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic
-// If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
-export const dynamic = 'force-dynamic'
+import classes from './index.module.scss'
 
 export default async function Page({ params: { slug = 'home' } }) {
   const { isEnabled: isDraftMode } = draftMode()
 
   let page: Page | null = null
+  let categories: Category[] | null = null
 
   try {
     page = await fetchDoc<Page>({
@@ -30,12 +34,32 @@ export default async function Page({ params: { slug = 'home' } }) {
       slug,
       draft: isDraftMode,
     })
+
+    categories = await fetchDocs<Category>('categories')
   } catch (error) {
-    // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
-    // so swallow the error here and simply render the page with fallback data where necessary
-    // in production you may want to redirect to a 404  page or at least log the error somewhere
-    // console.error(error)
+    console.error(error)
+    // Handle error appropriately, such as logging or displaying a fallback message
   }
+  ///////////////////////////////
+  let products: Product[] | null = null
+
+  try {
+    products = await fetchNewProducts(); // Fetch all new products
+  } catch (error) {
+    console.error(error)
+    // Handle error appropriately, such as logging or displaying a fallback message
+  }
+  /////////////////////////////
+  ///////////////////////////////
+  let quickproducts: Product[] | null = null
+
+  try {
+    quickproducts = await fetchQuickCheckoutProducts(); // Fetch products with specific category
+  } catch (error) {
+    console.error(error)
+    // Handle error appropriately, such as logging or displaying a fallback message
+  }
+  /////////////////////////////
 
   // if no `home` page exists, render a static one using dummy content
   // you should delete this code once you have a home page in the CMS
@@ -52,11 +76,37 @@ export default async function Page({ params: { slug = 'home' } }) {
 
   return (
     <React.Fragment>
-      <Hero {...hero} />
-      <Blocks
-        blocks={layout}
-        disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
-      />
+      {slug === 'home' ? (
+        <section>
+          <Hero {...hero} alt="Discover the best in smartphones, laptops, tablets, earphones, smartwatches, accessories, computer gear, and gaming consoles. Trusted tech, just a click away." />
+          <Gutter className={classes.home}>
+            <Categories categories={categories} />
+            <HR />
+            <NewProducts newProducts={products} /> {/* Updated prop name to match component */}
+            <HR />
+            <ShopInfo
+              imageUrl="https://spiral-gadgets.com/media/location.png"
+              location="Hilal Rd, F-11 Markaz F 11 Markaz F-11, Islamabad, Islamabad Capital Territory 44000, Pakistan"
+              mapsLink="https://maps.app.goo.gl/6yjsYK5F33bwqRpw8"
+              description="Visit Spiral Gadgets in Islamabad to explore our full range of tech products. Whether you're looking for the latest smartphones, gaming consoles, or accessories, our knowledgeable staff is here to help. We offer the best deals in town!"
+            />
+            <HR />
+            <QuickCheckout quickCheckoutProducts={quickproducts} />
+            {/* <AboutUs
+              text="Spiral Gadgets is your ultimate destination for cutting-edge technology. Explore our extensive collection of smartphones, tablets, MacBooks, smartwatches, and gaming consoles from top brands like Apple and Samsung. Whether you're looking for the latest iPhone, Samsung Galaxy, or quality used phones, we've got you covered. Don't miss out on our exclusive deals on AirPods, chargers, PlayStations, Xbox, and more. At Spiral Gadgets, we offer a wide selection of premium gadgets and accessories, all available with secure checkout, fast shipping, and exceptional customer support. Upgrade your tech today with Spiral Gadgets – where quality meets convenience."
+            /> */}
+            <HR />
+          </Gutter>
+        </section>
+      ) : (
+        <>
+          <Hero {...hero} />
+          <Blocks
+            blocks={layout}
+            disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
+          />
+        </>
+      )}
     </React.Fragment>
   )
 }
@@ -66,6 +116,7 @@ export async function generateStaticParams() {
     const pages = await fetchDocs<Page>('pages')
     return pages?.map(({ slug }) => slug)
   } catch (error) {
+    console.error(error)
     return []
   }
 }
@@ -82,10 +133,8 @@ export async function generateMetadata({ params: { slug = 'home' } }): Promise<M
       draft: isDraftMode,
     })
   } catch (error) {
-    // don't throw an error if the fetch fails
-    // this is so that we can render a static home page for the demo
-    // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
-    // in production you may want to redirect to a 404  page or at least log the error somewhere
+    console.error(error)
+    // Handle error appropriately, such as logging or displaying a fallback message
   }
 
   if (!page && slug === 'home') {

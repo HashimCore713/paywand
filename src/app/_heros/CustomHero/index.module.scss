@@ -1,0 +1,112 @@
+@import '../../_css/queries.scss';
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin-top: -20px;
+
+
+  @include small-break {
+    margin-top: -20px;
+  }
+
+  @media (max-width: 408px) { /* Adjust the max-width value as needed for your mobile breakpoint */
+    margin-top: -44px;
+  }
+}
+
+.heroWrapper {
+  background-color: var(--color-dark-50);
+  width: 100%;
+  max-width: 1560px;
+  min-height: 654px; /* Minimum height */
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  @media (max-width: 1250px) {
+    min-height: 500px;
+    background-size: contain;
+    background-position: center;
+  }
+  @media (max-width: 1000px) {
+    min-height: 400px;
+    background-size: contain;
+    background-position: center;
+  }
+  @media (max-width: 768px) {
+    min-height: 300px;
+    background-size: contain;
+    background-position: center;
+  }
+  @media (max-width: 550px) {
+    min-height: 250px;
+    background-size: contain;
+    background-position: center;
+  }
+  @media (max-width: 480px) {
+    min-height: 250px;
+    background-size: cover;
+    background-position: revert;
+  }
+}
+
+.heroTextBox {
+  height: 0; /* Set height to zero to avoid any impact on layout */
+  overflow: hidden; /* Hide any overflowing content */
+  position: absolute; /* Position it absolutely to ensure it doesn't push content around */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1; /* Keep it behind other elements */
+  color: transparent; /* Make the text transparent */
+  font-size: 0.1rem; /* Extremely small font size */
+  line-height: 0.1rem; /* Tight line height to minimize space */
+
+  @include mid-break {
+    padding: 10% 30px;
+  }
+
+  @include small-break {
+    padding: 50px 30px;
+  }
+
+  h2 {
+    font-size: 0.1rem; /* Extremely small font size */
+    margin: 0; /* Remove any margin to prevent spacing */
+    color: transparent; /* Make heading text transparent */
+  }
+
+  p {
+    font-size: 0.1rem; /* Extremely small font size */
+    margin: 0; /* Remove any margin to prevent spacing */
+    color: transparent; /* Make paragraph text transparent */
+  }
+
+  a {
+    font-size: 0.1rem; /* Extremely small font size */
+    color: transparent; /* Make link text transparent */
+  }
+}
+
+
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  padding-top: 50px;
+  flex-wrap: wrap;
+  margin: calc(var(--base) * -0.5);
+
+  & > * {
+    margin: calc(var(--base) / 2);
+  }
+}

@@ -8,7 +8,6 @@ import { Button } from '../../../_components/Button'
 import { Gutter } from '../../../_components/Gutter'
 import { HR } from '../../../_components/HR'
 import { Media } from '../../../_components/Media'
-import { Price } from '../../../_components/Price'
 import { formatDateTime } from '../../../_utilities/formatDateTime'
 import { getMeUser } from '../../../_utilities/getMeUser'
 import { mergeOpenGraph } from '../../../_utilities/mergeOpenGraph'
@@ -52,16 +51,23 @@ export default async function Order({ params: { id } }) {
         <span className={classes.id}>{`${order.id}`}</span>
       </h1>
       <div className={classes.itemMeta}>
-        <p>{`ID: ${order.id}`}</p>
-        <p>{`Payment Intent: ${order.stripePaymentIntentID}`}</p>
-        <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
-        <p className={classes.total}>
-          {'Total: '}
-          {new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'usd',
-          }).format(order.total / 100)}
-        </p>
+        <div>
+          <p>{`ID: ${order.id}`}</p>
+          <p>{`Payment Method: ${order.paymentMethod}`}</p>
+          <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
+          <p className={classes.total}>
+            {'Total: '}
+            {new Intl.NumberFormat('en-PK', {
+              style: 'currency',
+              currency: 'PKR',
+            }).format(order.total)}
+          </p>
+        </div>
+        <div>
+          <p>{`Name: `}<strong>{order.name}</strong></p>
+          <p>{`Address: ${order.address}`}</p>
+          <p>{`Phone Number: ${order.phoneNumber}`}</p>
+        </div>
       </div>
       <HR />
       <div className={classes.order}>
@@ -71,46 +77,41 @@ export default async function Order({ params: { id } }) {
             const {
               quantity,
               product,
-              product: { id, title, meta, stripeProductID },
+              product: { id, title, meta, gallery, slug, stripeProductID, price },
             } = item
 
             const isLast = index === (order?.items?.length || 0) - 1
 
-            const metaImage = meta?.image
+            // Use the first image from the gallery, or fallback to meta.image
+            const imageToUse = gallery && gallery.length > 0 ? gallery[0] : meta?.image;
 
             return (
               <Fragment key={index}>
                 <div className={classes.row}>
-                  <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
-                    {!metaImage && <span className={classes.placeholder}>No image</span>}
-                    {metaImage && typeof metaImage !== 'string' && (
+                  <Link href={`/products/${slug}`} className={classes.mediaWrapper}>
+                    {!imageToUse && <span className={classes.placeholder}>No image</span>}
+                    {imageToUse && typeof imageToUse !== 'string' && (
                       <Media
                         className={classes.media}
                         imgClassName={classes.image}
-                        resource={metaImage}
+                        resource={imageToUse}
                         fill
                       />
                     )}
                   </Link>
                   <div className={classes.rowContent}>
-                    {!stripeProductID && (
-                      <p className={classes.warning}>
-                        {'This product is not yet connected to Stripe. To link this product, '}
-                        <Link
-                          href={`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/collections/products/${id}`}
-                        >
-                          edit this product in the admin panel
-                        </Link>
-                        {'.'}
-                      </p>
-                    )}
                     <h5 className={classes.title}>
-                      <Link href={`/products/${product.slug}`} className={classes.titleLink}>
+                      <Link href={`/products/${slug}`} className={classes.titleLink}>
                         {title}
                       </Link>
                     </h5>
                     <p>{`Quantity: ${quantity}`}</p>
-                    <Price product={product} button={false} quantity={quantity} />
+                    <p className={classes.price}>
+                      {new Intl.NumberFormat('en-PK', {
+                        style: 'currency',
+                        currency: 'PKR',
+                      }).format(price)}
+                    </p>
                   </div>
                 </div>
                 {!isLast && <HR />}
@@ -130,13 +131,11 @@ export default async function Order({ params: { id } }) {
   )
 }
 
-export async function generateMetadata({ params: { id } }): Promise<Metadata> {
-  return {
+export const generateMetadata = async ({ params: { id } }): Promise<Metadata> => ({
+  title: `Order ${id}`,
+  description: `Order details for order ${id}.`,
+  openGraph: mergeOpenGraph({
     title: `Order ${id}`,
-    description: `Order details for order ${id}.`,
-    openGraph: mergeOpenGraph({
-      title: `Order ${id}`,
-      url: `/orders/${id}`,
-    }),
-  }
-}
+    url: `/orders/${id}`,
+  }),
+})

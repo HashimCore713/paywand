@@ -1,0 +1,32 @@
+@import '../../_css/common';
+
+.container {
+  width: 100%;
+  margin-top: 40px;
+
+  @media (max-width: 540px) {
+    margin-top: 30px;
+  }
+}
+
+.searchResults {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(30%, 1fr));
+  gap: 30px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.products {
+  display: block;
+  grid-template-columns: 1fr 75%;
+
+  @include large-break {
+    grid-template-columns: 100%;
+    gap: 48px;
+  }
+}

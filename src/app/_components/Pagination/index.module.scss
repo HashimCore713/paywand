@@ -13,13 +13,15 @@
   position: relative;
   display: flex;
   padding: calc(var(--base) / 2);
-  color: var(--color-elevation-500);
-  border: 1px solid var(--theme-elevation-200);
+  color: #ef5922;
+  border: 1px solid #01abf8;
+  border-radius: 15px;
 
   &:disabled {
     cursor: not-allowed;
     color: var(--theme-elevation-200);
     border-color: var(--theme-elevation-150);
+    border-radius: 15px;
   }
 }
 

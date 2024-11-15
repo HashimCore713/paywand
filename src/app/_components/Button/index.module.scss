@@ -8,10 +8,11 @@
   background-color: transparent;
   text-decoration: none;
   display: inline-flex;
-  padding: 12px 24px;
+  padding: 10px 24px;
   font-family: inherit;
   line-height: inherit;
   font-size: inherit;
+  border-radius: 10px;
 }
 
 .content {
@@ -34,13 +35,33 @@
 }
 
 .appearance--primary {
-  background-color: var(--theme-elevation-1000);
+  background-color: #01abf7;
   color: var(--theme-elevation-0);
 }
 
 .appearance--secondary {
   background-color: transparent;
-  box-shadow: inset 0 0 0 1px var(--theme-elevation-1000);
+  box-shadow: inset 0 0 0 1px #01abf7;
+  color: #01abf7;
+}
+
+.appearance--cod {
+  background-color: rgb(67, 180, 10);
+  color: var(--theme-elevation-0);
+  margin-right: 10px;
+}
+
+.appearance--card {
+  background-color: rgb(16, 113, 216);
+  color: var(--theme-elevation-0);
+  border-radius: 30px;
+}
+
+.appearance--buy {
+  background-color: rgb(16, 113, 216);
+  color: var(--theme-elevation-0);
+  border-radius: 50px; /* Adjust border-radius to make the button pill-shaped */
+  padding: 10px 24px; /* Adjust padding as needed */
 }
 
 .primary--invert {

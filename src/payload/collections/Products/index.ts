@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload/types'
 
 import { admins } from '../../access/admins'
+import { anyone } from '../../access/anyone'
 import { Archive } from '../../blocks/ArchiveBlock'
 import { CallToAction } from '../../blocks/CallToAction'
 import { Content } from '../../blocks/Content'
@@ -36,7 +37,7 @@ const Products: CollectionConfig = {
   access: {
     read: () => true,
     create: admins,
-    update: admins,
+    update: anyone,
     delete: admins,
   },
   fields: [
@@ -93,13 +94,26 @@ const Products: CollectionConfig = {
               },
             },
             {
+              name: 'price',
+              label: 'Price',
+              type: 'number',
+              min: 0,
+              required: true,
+            },
+            {
+              name: 'stock',
+              label: 'Stock',
+              type: 'number',
+              min: 0,
+              required: true,
+            },
+            {
               name: 'priceJSON',
               label: 'Price JSON',
-              type: 'textarea',
+              type: 'number',
               admin: {
                 readOnly: true,
                 hidden: true,
-                rows: 10,
               },
             },
             {
@@ -115,6 +129,16 @@ const Products: CollectionConfig = {
                 read: checkUserPurchases,
               },
               blocks: [CallToAction, Content, MediaBlock, Archive],
+            },
+            {
+              name: 'gallery',
+              label: 'Gallery',
+              type: 'relationship',
+              relationTo: 'media',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+              },
             },
           ],
         },

@@ -2,6 +2,13 @@
   visibility: visible;
   opacity: 1;
   transition: opacity 100ms linear;
+
+  &.disabled {
+    background-color: #d5d3d3; // Adjust to your desired disabled background color
+    color: var(--color-gray-300); // Adjust to your desired disabled text color
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }
 
 .green {

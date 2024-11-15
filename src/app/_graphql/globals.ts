@@ -16,6 +16,7 @@ query Header {
 
 export const FOOTER = `
   Footer {
+    copyright
     navItems {
       link ${LINK_FIELDS({ disableAppearance: true })}
 		}
@@ -33,6 +34,7 @@ export const SETTINGS = `
     productsPage {
       slug
     }
+    delivery  
   }
 `
 

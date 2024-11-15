@@ -8,9 +8,18 @@ const policies = {
     'https://js.stripe.com',
     'https://maps.googleapis.com',
   ],
-  'child-src': ["'self'"],
   'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-  'img-src': ["'self'", 'https://*.stripe.com', 'https://raw.githubusercontent.com'],
+  'img-src': [
+    "'self'",
+    'data:',
+    'blob',
+    'blob:',
+    'https://*.stripe.com',
+    'https://spiral-gadgets.com',
+    'https://www.spiral-gadgets.com',
+    'https://spiral-a23b1de.payloadcms.app/',
+    'https://raw.githubusercontent.com',
+  ],
   'font-src': ["'self'"],
   'frame-src': [
     "'self'",
@@ -22,15 +31,18 @@ const policies = {
     "'self'",
     'https://checkout.stripe.com',
     'https://api.stripe.com',
+    'https://spiral-gadgets.com',
+    'https://www.spiral-gadgets.com/',
+    'https://spiral-a23b1de.payloadcms.app',
     'https://maps.googleapis.com',
   ],
-}
+};
 
 module.exports = Object.entries(policies)
   .map(([key, value]) => {
     if (Array.isArray(value)) {
-      return `${key} ${value.join(' ')}`
+      return `${key} ${value.join(' ')}`;
     }
-    return ''
+    return '';
   })
-  .join('; ')
+  .join('; ');

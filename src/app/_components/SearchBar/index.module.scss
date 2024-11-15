@@ -1,0 +1,60 @@
+.form {
+  width: 30%;
+  margin-bottom: 0px;
+  position: relative;
+
+  @media (max-width: 540px) {
+    width: 100%;
+  }
+  @media (max-width: 371px) {
+    width: 80%;
+  }
+
+  input {
+    width: 100%;
+    font-family: system-ui;
+    border-radius: 10px;
+    box-shadow: none;
+    border: 0px solid var(--color-gray-500);
+    background: none;
+    background-color: var(--theme-elevation-100);
+    color: var(--theme-elevation-1000);
+    height: 40px;
+    line-height: calc(var(--base) * 2);
+    padding: 16px;
+    font-size: 14px;
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--theme-text);
+      -webkit-box-shadow: 0 0 0px 1000px var(--theme-elevation-150) inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  }
+}
+
+.searchInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInputContainer input {
+  padding-right: 40px; // Adjust based on icon size
+}
+
+.searchButton {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}

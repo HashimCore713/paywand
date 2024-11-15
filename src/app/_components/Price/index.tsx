@@ -3,40 +3,18 @@
 import React, { useEffect, useState } from 'react'
 
 import { Product } from '../../../payload/payload-types'
-import { AddToCartButton } from '../AddToCartButton'
-import { RemoveFromCartButton } from '../RemoveFromCartButton'
 
 import classes from './index.module.scss'
 
-export const priceFromJSON = (priceJSON: string, quantity: number = 1, raw?: boolean): string => {
-  let price = ''
+export const priceFromNumber = (price: number, quantity: number = 1, raw?: boolean): string => {
+  const priceValue = price * quantity
 
-  if (priceJSON) {
-    try {
-      const parsed = JSON.parse(priceJSON)?.data[0]
-      const priceValue = parsed.unit_amount * quantity
-      const priceType = parsed.type
+  if (raw) return priceValue.toString()
 
-      if (raw) return priceValue.toString()
-
-      price = (priceValue / 100).toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD', // TODO: use `parsed.currency`
-      })
-
-      if (priceType === 'recurring') {
-        price += `/${
-          parsed.recurring.interval_count > 1
-            ? `${parsed.recurring.interval_count} ${parsed.recurring.interval}`
-            : parsed.recurring.interval
-        }`
-      }
-    } catch (e) {
-      console.error(`Cannot parse priceJSON`) // eslint-disable-line no-console
-    }
-  }
-
-  return price
+  return priceValue.toLocaleString('en-PK', {
+    style: 'currency',
+    currency: 'PKR',
+  })
 }
 
 export const Price: React.FC<{
@@ -44,37 +22,30 @@ export const Price: React.FC<{
   quantity?: number
   button?: 'addToCart' | 'removeFromCart' | false
 }> = props => {
-  const { product, product: { priceJSON } = {}, button = 'addToCart', quantity } = props
+  const { product, product: { price } = {}, button = 'addToCart', quantity } = props
 
-  const [price, setPrice] = useState<{
+  const [priceState, setPriceState] = useState<{
     actualPrice: string
     withQuantity: string
   }>(() => ({
-    actualPrice: priceFromJSON(priceJSON),
-    withQuantity: priceFromJSON(priceJSON, quantity),
+    actualPrice: priceFromNumber(price),
+    withQuantity: priceFromNumber(price, quantity),
   }))
 
   useEffect(() => {
-    setPrice({
-      actualPrice: priceFromJSON(priceJSON),
-      withQuantity: priceFromJSON(priceJSON, quantity),
+    setPriceState({
+      actualPrice: priceFromNumber(price),
+      withQuantity: priceFromNumber(price, quantity),
     })
-  }, [priceJSON, quantity])
+  }, [price, quantity])
 
   return (
     <div className={classes.actions}>
-      {typeof price?.actualPrice !== 'undefined' && price?.withQuantity !== '' && (
+      {typeof priceState?.actualPrice !== 'undefined' && priceState?.withQuantity !== '' && (
         <div className={classes.price}>
-          <p>{price?.withQuantity}</p>
-          {quantity > 1 && (
-            <small className={classes.priceBreakdown}>{`${price.actualPrice} x ${quantity}`}</small>
-          )}
+          <p>{priceState?.withQuantity}</p>
         </div>
       )}
-      {button && button === 'addToCart' && (
-        <AddToCartButton product={product} appearance="default" />
-      )}
-      {button && button === 'removeFromCart' && <RemoveFromCartButton product={product} />}
     </div>
   )
 }

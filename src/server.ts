@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import next from 'next'
 import nextBuild from 'next/dist/build'
 import path from 'path'
+import cors from 'cors'; // Import CORS middleware
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -14,6 +15,16 @@ import { seed } from './payload/seed'
 
 const app = express()
 const PORT = process.env.PORT || 3000
+
+// CORS options to allow specific origins
+const corsOptions = {
+  origin: ['https://www.spiral-gadgets.com', process.env.PAYLOAD_PUBLIC_SERVER_URL],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+
 
 const start = async (): Promise<void> => {
   await payload.init({

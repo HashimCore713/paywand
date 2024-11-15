@@ -1,12 +1,13 @@
 import type { CollectionConfig } from 'payload/types'
 
 import { admins } from '../../access/admins'
-import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
+// import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
+import { anyone } from '../../access/anyone'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
 import { clearUserCart } from './hooks/clearUserCart'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
-import { LinkToPaymentIntent } from './ui/LinkToPaymentIntent'
+// import { LinkToPaymentIntent } from './ui/LinkToPaymentIntent'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -21,7 +22,7 @@ export const Orders: CollectionConfig = {
   access: {
     read: adminsOrOrderedBy,
     update: admins,
-    create: adminsOrLoggedIn,
+    create: anyone,
     delete: admins,
   },
   fields: [
@@ -32,16 +33,50 @@ export const Orders: CollectionConfig = {
       hooks: {
         beforeChange: [populateOrderedBy],
       },
+      required: false, // Make this field optional
     },
     {
-      name: 'stripePaymentIntentID',
-      label: 'Stripe Payment Intent ID',
-      type: 'text',
+      name: 'paymentMethod',
+      label: 'Payment Method',
+      type: 'select',
+      required: true,
+      options: [
+        {
+          label: 'Cash On Delivery',
+          value: 'cod',
+        },
+        {
+          label: 'Card',
+          value: 'card',
+        },
+      ],
       admin: {
         position: 'sidebar',
-        components: {
-          Field: LinkToPaymentIntent,
+      },
+    },
+    {
+      name: 'status', // New field 'status'
+      type: 'select',
+      options: [
+        {
+          label: 'Confirmed',
+          value: 'confirmed',
         },
+        {
+          label: 'Delivered',
+          value: 'delivered',
+        },
+        {
+          label: 'Not Delivered',
+          value: 'not_delivered',
+        },
+        {
+          label: 'Cancelled',
+          value: 'cancelled',
+        },
+      ],
+      admin: {
+        position: 'sidebar',
       },
     },
     {
@@ -49,6 +84,22 @@ export const Orders: CollectionConfig = {
       type: 'number',
       required: true,
       min: 0,
+    },
+    {
+      name: 'name',
+      type: 'text',
+    },
+    {
+      name: 'address',
+      type: 'text',
+    },
+    {
+      name: 'phoneNumber',
+      type: 'text',
+    },
+    {
+      name: 'email',
+      type: 'email',
     },
     {
       name: 'items',

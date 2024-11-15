@@ -1,6 +1,7 @@
 @import '../../../_css/common';
 
 .orders {
+  margin-top: 40px;
   margin-bottom: var(--block-padding);
 }
 
@@ -9,8 +10,10 @@
 }
 
 .itemMeta {
+  margin-top: 20px;
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
+  justify-content: space-between;
   gap: calc(var(--base) / 2);
 
   & > * {
@@ -56,6 +59,7 @@
   aspect-ratio: 5 / 4;
   width: 100%;
   max-width: 200px;
+  border-radius: 15px;
 
   @include small-break {
     max-width: unset;
@@ -87,14 +91,11 @@
   text-decoration: none;
   display: block;
   position: relative;
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 1/1; // Same aspect ratio as in the card
   width: 100%;
-  max-width: 300px;
-
-  @include small-break {
-    max-width: unset;
-    margin-bottom: calc(var(--base) / 2);
-  }
+  max-width: 300px; // You can adjust the max-width here for responsiveness
+  border-radius: 15px;
+  background-color: var(--color-dark-50); // Apply same background for consistency
 }
 
 .media {
@@ -104,7 +105,10 @@
 }
 
 .image {
-  object-fit: cover;
+  padding: 24px; // Same padding as the card image
+  object-fit: contain; // Adjusted to match the card
+  aspect-ratio: 1/1; // Ensuring the aspect ratio stays consistent
+  max-width: 100%; // Ensuring the image fits inside the wrapper
 }
 
 .title {
