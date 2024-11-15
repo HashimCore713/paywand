@@ -16,12 +16,12 @@ const NewProducts = () => {
     const fetchData = async () => {
       try {
         const data = await fetchNewProducts();
-        const { MacBook, AirPods, iPhone } = data;
+        const { Beige, Black, Grey } = data;
 
         const filteredProducts = [
-          MacBook.docs.length > 0 ? MacBook.docs[0] : null,
-          AirPods.docs.length > 0 ? AirPods.docs[0] : null,
-          iPhone.docs.length > 0 ? iPhone.docs[0] : null,
+          Beige.docs.length > 0 ? Beige.docs[0] : null,
+          Black.docs.length > 0 ? Black.docs[0] : null,
+          Grey.docs.length > 0 ? Grey.docs[0] : null,
         ].filter(Boolean) as Product[];
 
         setProducts(filteredProducts);
@@ -42,20 +42,20 @@ const NewProducts = () => {
     // Custom sorting logic
     const FirstProduct = products.find(
       product =>
-        product.title?.toLowerCase().includes('Beige') ||
+        product.title?.toLowerCase().includes('beige') ||
         product.slug?.toLowerCase().includes('beige')
     );
   
     const SecondProduct = products.find(
       product =>
-        product.title?.toLowerCase().includes('Black') ||
+        product.title?.toLowerCase().includes('black') ||
         product.slug?.toLowerCase().includes('black')
     );
   
     const ThirdProduct = products.find(
       product =>
-        product.title?.toLowerCase().includes('Grey') ||
-        product.slug?.toLowerCase().includes('Grey')
+        product.title?.toLowerCase().includes('grey') ||
+        product.slug?.toLowerCase().includes('grey')
     );
   ///////////////
 

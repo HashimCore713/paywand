@@ -68,7 +68,7 @@ export const PRODUCT_PAYWALL = `
 
 export const NEW_PRODUCTS = `
   query NewProducts {
-    MacBook: Products(where: { slug: { contains: "macbook" }}, limit: 1) {
+    Beige: Products(where: { slug: { contains: "beige" }}, limit: 1) {
       docs {
         id
         slug
@@ -101,7 +101,7 @@ export const NEW_PRODUCTS = `
         ${META}
       }
     }
-    AirPods: Products(where: { slug: { contains: "airpods" }}, limit: 1) {
+    Black: Products(where: { slug: { contains: "black" }}, limit: 1) {
       docs {
         id
         slug
@@ -134,7 +134,7 @@ export const NEW_PRODUCTS = `
         ${META}
       }
     }
-    iPhone: Products(where: { slug: { contains: "iphone" }}, limit: 1) {
+    Grey: Products(where: { slug: { contains: "grey" }}, limit: 1) {
       docs {
         id
         slug

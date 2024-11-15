@@ -111,7 +111,7 @@ const HeaderComponent = () => {
     <nav className={[classes.header, !navVisible && classes.hideNav].filter(Boolean).join(' ')}>
       <Gutter className={classes.wrap}>
         <Link href="/">
-          <Image src="/logo-black.svg" alt="logo" max-width={170} height={50} />
+          <Image src="/logo-black.svg" alt="logo" max-width={170} width={170} height={50} />
         </Link>
         {isLargeScreen && <SearchBar />}
         {isMediumScreen && (
