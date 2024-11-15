@@ -42,20 +42,20 @@ const NewProducts = () => {
     // Custom sorting logic
     const FirstProduct = products.find(
       product =>
-        product.title?.toLowerCase().includes('macbook') ||
-        product.slug?.toLowerCase().includes('macbook')
+        product.title?.toLowerCase().includes('Beige') ||
+        product.slug?.toLowerCase().includes('beige')
     );
   
     const SecondProduct = products.find(
       product =>
-        product.title?.toLowerCase().includes('airpods') ||
-        product.slug?.toLowerCase().includes('airpods')
+        product.title?.toLowerCase().includes('Black') ||
+        product.slug?.toLowerCase().includes('black')
     );
   
     const ThirdProduct = products.find(
       product =>
-        product.title?.toLowerCase().includes('iphone') ||
-        product.slug?.toLowerCase().includes('iphone')
+        product.title?.toLowerCase().includes('Grey') ||
+        product.slug?.toLowerCase().includes('Grey')
     );
   ///////////////
 

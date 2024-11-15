@@ -134,16 +134,6 @@ const HeaderComponent = () => {
         )}
         {searchOpen && !isLargeScreen && <SearchBar />}
       </Gutter>
-      {/* Categories */}
-      <Gutter>
-        <div className={classes.category}>
-          {categories.map((category, i) => (
-            <Link key={i} href="/products" onClick={() => setCategoryFilters([category.id])}>
-              {category.title}
-            </Link>
-          ))}
-        </div>
-      </Gutter>
     </nav>
   );
 };
