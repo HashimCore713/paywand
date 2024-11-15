@@ -84,13 +84,6 @@ export default async function Page({ params: { slug = 'home' } }) {
             <HR />
             <NewProducts newProducts={products} /> {/* Updated prop name to match component */}
             <HR />
-            <ShopInfo
-              imageUrl="https://spiral-gadgets.com/media/location.png"
-              location="Hilal Rd, F-11 Markaz F 11 Markaz F-11, Islamabad, Islamabad Capital Territory 44000, Pakistan"
-              mapsLink="https://maps.app.goo.gl/6yjsYK5F33bwqRpw8"
-              description="Visit Spiral Gadgets in Islamabad to explore our full range of tech products. Whether you're looking for the latest smartphones, gaming consoles, or accessories, our knowledgeable staff is here to help. We offer the best deals in town!"
-            />
-            <HR />
             <QuickCheckout quickCheckoutProducts={quickproducts} />
             {/* <AboutUs
               text="Spiral Gadgets is your ultimate destination for cutting-edge technology. Explore our extensive collection of smartphones, tablets, MacBooks, smartwatches, and gaming consoles from top brands like Apple and Samsung. Whether you're looking for the latest iPhone, Samsung Galaxy, or quality used phones, we've got you covered. Don't miss out on our exclusive deals on AirPods, chargers, PlayStations, Xbox, and more. At Spiral Gadgets, we offer a wide selection of premium gadgets and accessories, all available with secure checkout, fast shipping, and exceptional customer support. Upgrade your tech today with Spiral Gadgets – where quality meets convenience."
