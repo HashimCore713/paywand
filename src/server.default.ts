@@ -23,8 +23,8 @@ const start = async (): Promise<void> => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
     },
     email: {
-      fromName: 'no-reply@spiral-gadgets.com',
-      fromAddress: 'no-reply@spiral-gadgets.com',
+      fromName: 'no-reply@paywand.pk',
+      fromAddress: 'no-reply@paywand.pk',
       transportOptions: {
         host: process.env.SMTP_HOST,
         port: Number(process.env.SMTP_PORT),

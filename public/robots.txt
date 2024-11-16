@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://spiral-gadgets.com
+Host: https://paywand.pk
 
 # Sitemaps
-Sitemap: https://spiral-gadgets.com/sitemap.xml
+Sitemap: https://paywand.pk/sitemap.xml

@@ -1,6 +1,6 @@
 // next-sitemap.config.js
 
-const siteUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'https://spiral-gadgets.com';
+const siteUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'https://paywand.pk';
 
 // Disable sitemap generation by using an environment variable or condition
 const generateSitemap = process.env.GENERATE_SITEMAP === 'true';  // Example using an env variable

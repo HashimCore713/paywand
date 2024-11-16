@@ -1,7 +1,7 @@
 // next-seo.config.ts
 const config = {
     title: 'Paywand | Latest Weaving Stories into Styles',
-    description: 'Discover the latest tech gadgets, phones, laptops, gaming consoles, and accessories at Paywand. Your one-stop shop for all things tech in Pakistan.',
+    description: 'Discover the latest apparel, and accessories at Paywand. Your one-stop shop for all things tech in Pakistan.',
     openGraph: {
       type: 'website',
       locale: 'en_PK', 

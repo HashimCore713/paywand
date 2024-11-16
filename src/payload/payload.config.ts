@@ -73,7 +73,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),
-  // serverURL: 'https://spiral-gadgets.com',
+  // serverURL: 'https://paywand.pk',
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   collections: [Pages, Products, Orders, Media, Categories, Users, Contact], // Include Contact collection here
   globals: [Settings, Header, Footer],
@@ -85,14 +85,14 @@ export default buildConfig({
   },
   cors: [
     'https://checkout.stripe.com', 
-    'https://www.spiral-gadgets.com/',
+    'https://www.paywand.pk/',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || 
     ''].filter(
     Boolean,
   ),
   csrf: [
     'https://checkout.stripe.com', 
-    'https://www.spiral-gadgets.com/',
+    'https://www.paywand.pk/',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || 
     ''].filter(
     Boolean,

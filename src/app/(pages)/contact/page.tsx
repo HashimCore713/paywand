@@ -19,7 +19,7 @@ export default function ContactPage() {
       type: 'website',
       images: [
         {
-          url: 'https://spiral-gadgets.com/images/contact-us.jpg',
+          url: 'https://paywand.pk/images/contact-us.jpg',
           width: 1200,
           height: 630,
           alt: 'Contact Paywand',
@@ -30,7 +30,7 @@ export default function ContactPage() {
       card: 'summary_large_image',
       title: 'Contact Paywand | Get in Touch for Queries & Support',
       description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
-      images: ['https://spiral-gadgets.com/images/contact-us.jpg'],
+      images: ['https://paywand.pk/images/contact-us.jpg'],
     },
   };
 
