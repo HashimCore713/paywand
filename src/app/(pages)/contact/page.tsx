@@ -58,7 +58,7 @@ export default function ContactPage() {
   return (
     <div className={classes.contact}>
     <Gutter>
-      <h1 className={classes.heading}>Get in Touch with Spiral Gadgets</h1>
+      <h1 className={classes.heading}>Get in Touch with Paywand Team</h1>
       <p>Have any questions, feedback, or need support? Fill out the form below and our team will get back to you promptly.</p>
       <p>&nbsp;</p>
       <ContactForm onSubmit={handleSubmit} />
