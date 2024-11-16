@@ -10,11 +10,11 @@ import classes from './index.module.scss';
 
 export default function ContactPage() {
   const metadata: Metadata = {
-    title: 'Contact Spiral Gadgets | Get in Touch for Queries & Support',
-    description: 'Reach out to Spiral Gadgets for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
+    title: 'Contact Paywand | Get in Touch for Queries & Support',
+    description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
     openGraph: mergeOpenGraph({
-      title: 'Contact Spiral Gadgets | Get in Touch for Queries & Support',
-      description: 'Reach out to Spiral Gadgets for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
+      title: 'Contact Paywand | Get in Touch for Queries & Support',
+      description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
       url: '/contact',
       type: 'website',
       images: [
@@ -22,14 +22,14 @@ export default function ContactPage() {
           url: 'https://spiral-gadgets.com/images/contact-us.jpg',
           width: 1200,
           height: 630,
-          alt: 'Contact Spiral Gadgets',
+          alt: 'Contact Paywand',
         },
       ],
     }),
     twitter: {
       card: 'summary_large_image',
-      title: 'Contact Spiral Gadgets | Get in Touch for Queries & Support',
-      description: 'Reach out to Spiral Gadgets for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
+      title: 'Contact Paywand | Get in Touch for Queries & Support',
+      description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
       images: ['https://spiral-gadgets.com/images/contact-us.jpg'],
     },
   };
