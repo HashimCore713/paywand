@@ -84,7 +84,7 @@ export default async function Page({ params: { slug = 'home' } }) {
             <HR />
             <QuickCheckout quickCheckoutProducts={quickproducts} />
             {/* <AboutUs
-              text="Spiral Gadgets is your ultimate destination for cutting-edge technology. Explore our extensive collection of smartphones, tablets, MacBooks, smartwatches, and gaming consoles from top brands like Apple and Samsung. Whether you're looking for the latest iPhone, Samsung Galaxy, or quality used phones, we've got you covered. Don't miss out on our exclusive deals on AirPods, chargers, PlayStations, Xbox, and more. At Spiral Gadgets, we offer a wide selection of premium gadgets and accessories, all available with secure checkout, fast shipping, and exceptional customer support. Upgrade your tech today with Spiral Gadgets – where quality meets convenience."
+              text="Paywand is your ultimate destination for cutting-edge technology. Explore our extensive collection of smartphones, tablets, MacBooks, smartwatches, and gaming consoles from top brands like Apple and Samsung. Whether you're looking for the latest iPhone, Samsung Galaxy, or quality used phones, we've got you covered. Don't miss out on our exclusive deals on AirPods, chargers, PlayStations, Xbox, and more. At Paywand, we offer a wide selection of premium gadgets and accessories, all available with secure checkout, fast shipping, and exceptional customer support. Upgrade your tech today with Paywand – where quality meets convenience."
             /> */}
             <HR />
           </Gutter>

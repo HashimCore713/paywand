@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
-  siteName: 'Spiral Gadgets',
+  siteName: 'Paywand',
   title: '',
-  description: 'Explore our latest gadgets and accessories at Spiral Gadgets.',
+  description: 'Explore our latest apparel at Paywand.',
   images: [
     {
-      url: 'https://spiral-gadgets.com/media/metacard.png',
+      url: 'https://paywand.pk/media/metacard.png',
     },
   ],
 }
