@@ -20,11 +20,13 @@ export const ORDER = `
           product ${PRODUCT}
           title
           price
+          sizes
         }
         name
         address
         phoneNumber
         email
+        size
         paymentMethod
         status
       }

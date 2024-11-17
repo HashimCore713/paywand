@@ -5,10 +5,7 @@ import Link from 'next/link'
 
 import { Page, Settings } from '../../../../payload/payload-types'
 import { Button } from '../../../_components/Button'
-import { HR } from '../../../_components/HR'
 import { LoadingShimmer } from '../../../_components/LoadingShimmer'
-import { Media } from '../../../_components/Media'
-import { RemoveFromCartButton } from '../../../_components/RemoveFromCartButton'
 import { useAuth } from '../../../_providers/Auth'
 import { useCart } from '../../../_providers/Cart'
 import CartItem from '../CartItem'
@@ -71,7 +68,7 @@ export const CartPage: React.FC<{
                   <p>Products</p>
                   <div className={classes.headerItemDetails}>
                     <p></p>
-                    <p></p>
+                    <p>Size</p>
                     <p>Quantity</p>
                   </div>
                   <p className={classes.headersubtotal}>Subtotal</p>
@@ -80,29 +77,23 @@ export const CartPage: React.FC<{
                 <ul className={classes.itemsList}>
                   {cart?.items?.map((item, index) => {
                     if (typeof item.product === 'object') {
-                      const {
-                        quantity,
-                        product,
-                        product: { id, title, meta, slug, price },
-                      } = item
+                      const { quantity, product, size } = item;
 
-                      const isLast = index === (cart?.items?.length || 0) - 1
-
-                      const metaImage = meta?.image
-
+                      // Make sure size is correctly passed to CartItem
                       return (
                         <CartItem
-                          key={id} // Add a unique key
+                          key={product.id}
                           product={product}
-                          title={title}
-                          metaImage={metaImage}
+                          title={product.title}
+                          metaImage={product.meta?.image}
                           qty={quantity}
+                          size={size}  // Pass size to CartItem
                           addItemToCart={addItemToCart}
-                          fetchProductDetails={fetchProductDetails} // Pass the fetch function
+                          fetchProductDetails={fetchProductDetails}
                         />
-                      )
+                      );
                     }
-                    return null
+                    return null;
                   })}
                 </ul>
               </div>
@@ -121,27 +112,35 @@ export const CartPage: React.FC<{
                   <p className={classes.cartTotal}>Grand Total</p>
                   <p className={classes.cartTotal}>PKR {grandTotal.toLocaleString('en-US')}</p>
                 </div>
+
+                {/* Checkout Button */}
                 {user ? (
-                  <Button
-                    className={classes.checkoutButton}
-                    href="/checkout"
-                    label="Checkout"
-                    appearance="primary"
-                  />
+                  <Link className={classes.checkoutButton} href="/checkout" passHref>
+                    <Button
+                      className={classes.checkoutButton}
+                      label="Checkout"
+                      appearance="primary"
+                      onClick={() => {
+                        localStorage.setItem('selectedSize', JSON.stringify(cart.items.map(item => item.size)));
+                      }}
+                    />
+                  </Link>
                 ) : (
                   <>
-                    <Button
-                      className={classes.checkoutButton}
-                      href="/login?redirect=%2Fcheckout"
-                      label="Login to checkout"
-                      appearance="secondary"
-                    />
-                    <Button
-                      className={classes.checkoutButton}
-                      href="/checkout"
-                      label="Checkout as Guest"
-                      appearance="primary"
-                    />
+                    <Link href="/login?redirect=%2Fcheckout" passHref>
+                      <Button
+                        className={classes.checkoutButton}
+                        label="Login to checkout"
+                        appearance="secondary"
+                      />
+                    </Link>
+                    <Link href="/checkout" passHref>
+                      <Button
+                        className={classes.checkoutButton}
+                        label="Checkout as Guest"
+                        appearance="tertiary"
+                      />
+                    </Link>
                   </>
                 )}
               </div>
@@ -152,3 +151,5 @@ export const CartPage: React.FC<{
     </Fragment>
   )
 }
+
+export default CartPage

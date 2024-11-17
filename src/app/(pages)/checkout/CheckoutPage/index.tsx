@@ -22,13 +22,21 @@ import classes from './index.module.scss'
 const CheckoutPage: React.FC<{
   settings: Settings
 }> = props => {
-  const {
-    settings: { productsPage, delivery },
-  } = props
-
+  const { settings: { productsPage, delivery } } = props
   const router = useRouter()
   const { cart, cartIsEmpty, cartTotal } = useCart()
   const [paymentOption, setPaymentOption] = useState<'cod' | 'card' | null>(null)
+
+  // Retrieve the selected size from localStorage
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Parse the selected size from localStorage
+    const sizeFromLocalStorage = localStorage.getItem('selectedSize');
+    if (sizeFromLocalStorage) {
+      setSelectedSize(JSON.parse(sizeFromLocalStorage));
+    }
+  }, []);
 
   // Calculate order total including delivery fee
   const orderTotal = cartTotal.raw + delivery
@@ -40,10 +48,10 @@ const CheckoutPage: React.FC<{
   const handleCheckout = () => {
     if (paymentOption === 'cod') {
       // Handle COD checkout logic (show form, etc.)
-      console.log('Handling COD checkout')
+      // console.log('Handling COD checkout')  <-- Removed
     } else if (paymentOption === 'card') {
       // Redirect to card payment page or handle payment gateway integration
-      console.log('Redirecting to card payment page')
+      // console.log('Redirecting to card payment page')  <-- Removed
       // Example redirection:
       // router.push('/card-payment');
     }
@@ -66,40 +74,36 @@ const CheckoutPage: React.FC<{
           <div className={classes.header}>
             <p>Products</p>
             <div className={classes.headerItemDetails}>
-              <p></p>
+              <p className={classes.quantity}>Size</p>   
               <p className={classes.quantity}>Quantity</p>
             </div>
             <p className={classes.subtotal}>Subtotal</p>
           </div>
 
           <ul>
-            {cart?.items?.map((item, index) => {
-              if (typeof item.product === 'object') {
-                const {
-                  quantity,
-                  product,
-                  product: { title, meta },
-                } = item
+          {cart?.items?.map((item, index) => {
+            if (typeof item.product === 'object') {
+              const { quantity, size, product, product: { title, meta } } = item;
 
-                if (!quantity) return null
+              if (!quantity) return null;
 
-                const metaImage = meta?.image
+              const metaImage = meta?.image;
 
-                return (
-                  <Fragment key={index}>
-                    {/* CheckoutItem renders the product details */}
-                    <CheckoutItem
-                      product={product}
-                      title={title}
-                      metaImage={metaImage}
-                      quantity={quantity}
-                      index={index}
-                    />
-                  </Fragment>
-                )
-              }
-              return null
-            })}
+              return (
+                <Fragment key={index}>
+                  <CheckoutItem
+                    product={product}
+                    title={title}
+                    metaImage={metaImage}
+                    quantity={quantity}
+                    size={selectedSize} // Pass size here
+                    index={index}
+                  />
+                </Fragment>
+              );
+            }
+            return null;
+          })}
           </ul>
 
           <div className={classes.orderTotal}>
@@ -129,23 +133,10 @@ const CheckoutPage: React.FC<{
               >
                 COD (Cash On Delivery)
               </Button>
-              {/* <Button
-                className={classes.payment_btn}
-                el="link"
-                href="/cart"
-                appearance="card"
-                onClick={() => handlePaymentOptionSelect('card')}
-                disabled={paymentOption === 'card'}
-              >
-                Card Payment
-              </Button> */}
             </div>
           </div>
 
-          {paymentOption === 'cod' && <CheckoutForm delivery={delivery} />}
-          {/* {paymentOption === 'card' && (
-            <p>carddddd</p>
-          )} */}
+          {paymentOption === 'cod' && <CheckoutForm delivery={delivery} selectedSize={selectedSize} />}
         </div>
       )}
     </Fragment>

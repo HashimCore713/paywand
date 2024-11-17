@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 
 import { Media } from '../../../_components/Media'
@@ -6,7 +6,7 @@ import { Price } from '../../../_components/Price'
 
 import classes from './index.module.scss'
 
-export const CheckoutItem = ({ product, title, metaImage, quantity, index }) => {
+export const CheckoutItem = ({ product, title, metaImage, quantity, size, index }) => {
   // Calculate subtotal for this item
   const calculateSubtotal = () => {
     if (product && product.price) {
@@ -18,8 +18,8 @@ export const CheckoutItem = ({ product, title, metaImage, quantity, index }) => 
 
   // Use the first image from the gallery if available
   const imageToUse = product.gallery && product.gallery.length > 0
-  ? product.gallery[0]
-  : product.meta?.image;
+    ? product.gallery[0]
+    : product.meta?.image
 
   return (
     <li className={classes.item} key={index}>
@@ -35,6 +35,7 @@ export const CheckoutItem = ({ product, title, metaImage, quantity, index }) => 
           <h6>{title}</h6>
           <Price product={product} button={false} />
         </div>
+        <p className={classes.size}>Size: {size || 'N/A'}</p> {/* Display size */}
         <p className={classes.quantity}>x{quantity}</p>
       </div>
 

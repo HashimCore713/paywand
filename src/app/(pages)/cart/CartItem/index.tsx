@@ -10,7 +10,7 @@ import { RemoveFromCartButton } from '../../../_components/RemoveFromCartButton'
 
 import classes from './index.module.scss'
 
-const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductDetails }) => {
+const CartItem = ({ product, title, metaImage, qty, size, addItemToCart, fetchProductDetails }) => {
   const [quantity, setQuantity] = useState(qty)
   const [loading, setLoading] = useState(false)
   const [productDetails, setProductDetails] = useState(product)
@@ -32,7 +32,7 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductD
   const decrementQty = () => {
     const updatedQty = quantity > 1 ? quantity - 1 : 1
     setQuantity(updatedQty)
-    addItemToCart({ product: productDetails, quantity: Number(updatedQty) })
+    addItemToCart({ product: productDetails, quantity: Number(updatedQty), size })
   }
 
   const incrementQty = () => {
@@ -40,7 +40,7 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductD
     if (productDetails.stock > quantity) {
       const updatedQty = quantity + 1
       setQuantity(updatedQty)
-      addItemToCart({ product: productDetails, quantity: Number(updatedQty) })
+      addItemToCart({ product: productDetails, quantity: Number(updatedQty), size })
     } else {
       // Handle case where stock limit is reached
       alert(`Only ${productDetails.stock} items available in stock.`)
@@ -51,7 +51,7 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductD
   const enterQty = e => {
     const updatedQty = Number(e.target.value)
     setQuantity(updatedQty)
-    addItemToCart({ product: productDetails, quantity: Number(updatedQty) })
+    addItemToCart({ product: productDetails, quantity: Number(updatedQty), size })
   }
 
   // Calculate subtotal for this item
@@ -67,8 +67,8 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductD
 
   // Use the first image from the gallery if available
   const imageToUse = productDetails.gallery && productDetails.gallery.length > 0
-  ? productDetails.gallery[0]
-  : productDetails.meta?.image;
+    ? productDetails.gallery[0]
+    : productDetails.meta?.image;
 
   return (
     <li className={classes.item} key={title}>
@@ -91,6 +91,10 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductD
             <div className={classes.titleWrapper}>
               <h6>{title}</h6>
               <Price product={productDetails} button={false} />
+            </div>
+
+            <div className={classes.size}>
+              {size && <p>Size: {size}</p>} {/* Display the selected size */}
             </div>
 
             <div className={classes.quantity}>

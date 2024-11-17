@@ -45,11 +45,13 @@ export const PRODUCT = `
         gallery {
           ${MEDIA_FIELDS}
         }
+        sizes
         ${META}
       }
     }
   }
-`
+`;
+
 
 export const PRODUCT_PAYWALL = `
   query Product($slug: String, $draft: Boolean) {

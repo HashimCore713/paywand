@@ -70,3 +70,35 @@
 .description {
   padding: 30px 0;
 }
+
+.sizeSelector {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px; /* Adding margin for spacing */
+}
+
+.sizeLabel {
+  font-size: 16px;
+  color: var(--color-gray-800); /* Consistent color with other text labels */
+  margin-bottom: 8px; /* Space between label and dropdown */
+}
+
+.sizeDropdown {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  background-color: var(--color-white);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: var(--color-primary); /* Ensure focus border color consistency */
+    outline: none;
+  }
+
+  & option {
+    padding: 10px;
+    font-size: 16px;
+  }
+}

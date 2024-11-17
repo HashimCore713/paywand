@@ -1,64 +1,46 @@
 'use client'
-import React, { Fragment, useState } from 'react'
 
+import React, { useState } from 'react'
 import { Category, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
 import { ImageGallery } from '../../_components/Gallery'
-
 import classes from './index.module.scss'
 
-export const ProductHero: React.FC<{
-  product: Product
-}> = ({ product }) => {
-  const {
-    title,
-    categories,
-    meta: { description },
-    price,
-    stock,
-    gallery,
-  } = product
-
-  // Initialize selectedImage with the first gallery image
+export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
+  const { title, categories, meta: { description }, price, stock, gallery, sizes } = product
   const [selectedImage, setSelectedImage] = useState(gallery?.[0])
+  const [selectedSize, setSelectedSize] = useState<string | null>(null)
 
-  // Function to format price with commas
-  const formatPrice = (price: number) => {
-    return price.toLocaleString('en-US') // Adjust 'en-US' to your desired locale if different
-  }
+  const formatPrice = (price: number) => price.toLocaleString('en-US')
 
-  // Function to determine stock status text and color
   const getStockInfo = (stock: number): { text: string; colorClass: string } => {
     let stockText = ''
     let colorClass = ''
-
     if (stock === 0) {
       stockText = 'Out Of Stock'
       colorClass = classes.outOfStock
     } else if (stock >= 15) {
       stockText = 'In Stock'
       colorClass = classes.inStock
-    } else if (stock >= 8) {
-      stockText = 'Low Stock'
-      colorClass = classes.lowStock
     } else {
-      stockText = `${stock} Left`
-      colorClass = classes.otherStock
+      stockText = stock >= 8 ? 'Low Stock' : `${stock} Left`
+      colorClass = classes.lowStock
     }
-
     return { text: stockText, colorClass }
   }
 
-  // Determine if Add to Cart button should be disabled
-  const isOutOfStock = stock === 0
-
-  // Get stock status and color class
+  const isOutOfStock = stock === 0 || !selectedSize
   const { text: stockStatus, colorClass } = getStockInfo(stock)
 
-  // Handler for thumbnail click
   const handleThumbnailClick = (image: any) => {
     setSelectedImage(image)
+  }
+
+  const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedSize = event.target.value
+    setSelectedSize(selectedSize)
+    console.log("Selected Size in ProductHero:", selectedSize) // Log the selected size
   }
 
   return (
@@ -76,28 +58,36 @@ export const ProductHero: React.FC<{
 
         <div className={classes.categoryWrapper}>
           <div className={classes.categories}>
-            {categories?.map((category, index) => {
-              const { title: categoryTitle } = category as Category
-
-              const titleToUse = categoryTitle || 'Generic'
-              const isLast = index === categories.length - 1
-
-              return (
-                <p key={index} className={classes.category}>
-                  {titleToUse} <span className={classes.separator}>|</span>
-                </p>
-              )
-            })}
+            {categories?.map((category, index) => (
+              <p key={index} className={classes.category}>
+                {category.title || 'Generic'} <span className={classes.separator}>|</span>
+              </p>
+            ))}
           </div>
           <p className={`${classes.stock} ${colorClass}`}>{stockStatus}</p>
         </div>
 
-        {/* Display Price with commas */}
         {price && (
           <p className={classes.price}>
-            <b>PKR </b>
-            {formatPrice(price)}
+            <b>PKR </b>{formatPrice(price)}
           </p>
+        )}
+
+        {sizes && sizes.length > 0 && (
+          <div className={classes.sizeSelector}>
+            <label htmlFor="size-select" className={classes.sizeLabel}>Select Size:</label>
+            <select
+              id="size-select"
+              value={selectedSize || ''}
+              onChange={handleSizeChange}
+              className={classes.sizeDropdown}
+            >
+              <option value="" disabled>Choose a size</option>
+              {sizes.map((size: string) => (
+                <option key={size} value={size}>{size}</option>
+              ))}
+            </select>
+          </div>
         )}
 
         <div className={classes.description}>
@@ -105,10 +95,11 @@ export const ProductHero: React.FC<{
           <p>{description}</p>
         </div>
 
-        <AddToCartButton
+        <AddToCartButton 
           product={product}
+          selectedSize={selectedSize}  // Pass selected size to the AddToCartButton
           className={`${classes.addToCartButton} ${isOutOfStock ? classes.disabled : ''}`}
-          disabled={isOutOfStock} // Disable the button if out of stock
+          disabled={isOutOfStock}
         />
       </div>
     </Gutter>

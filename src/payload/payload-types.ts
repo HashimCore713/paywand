@@ -416,6 +416,7 @@ export interface Product {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+  sizes?: string[];
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -441,6 +442,7 @@ export interface Order {
     | null;
   updatedAt: string;
   createdAt: string;
+  size?: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

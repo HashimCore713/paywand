@@ -121,7 +121,13 @@ export const Orders: CollectionConfig = {
           type: 'number',
           min: 0,
         },
+        {
+          name: 'size', // New field for sizes
+          type: 'text', // You can change this to 'select' if you want predefined size options
+          required: false, // Optional, depending on your requirements
+        },
       ],
     },
   ],
 }
+
