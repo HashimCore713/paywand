@@ -125,11 +125,14 @@ export const ProductHero: React.FC<{
           <p>{description}</p>
         </div>
 
+        {!selectedSize && (
+            <p className={classes.selectSizeMessage}>*Please select a size to proceed.</p>
+        )}
         <AddToCartButton
           product={product}
           selectedSize={selectedSize}  // Pass selected size to AddToCartButton
           className={`${classes.addToCartButton} ${isOutOfStock ? classes.disabled : ''}`}
-          disabled={isOutOfStock}
+          disabled={isOutOfStock || !selectedSize}
         />
       </div>
     </Gutter>

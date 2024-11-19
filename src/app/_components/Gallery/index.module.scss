@@ -24,7 +24,7 @@
   width: 100%;
   height: auto;
   max-height: 100%; /* Ensure the image does not exceed the card's height */
-  object-fit: contain; /* Ensure images maintain aspect ratio */
+  object-fit: cover; /* Ensure images maintain aspect ratio */
 }
 
 .thumbnails {
