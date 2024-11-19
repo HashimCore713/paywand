@@ -122,12 +122,18 @@ export const Orders: CollectionConfig = {
           min: 0,
         },
         {
-          name: 'size', // New field for sizes
-          type: 'text', // You can change this to 'select' if you want predefined size options
-          required: false, // Optional, depending on your requirements
+          name: 'selectedSize',
+          type: 'select',
+          label: 'Selected Size',
+          options: [
+            { label: 'Small', value: 'S' },
+            { label: 'Medium', value: 'M' },
+            { label: 'Large', value: 'L' },
+            { label: 'Extra Large', value: 'XL' },
+          ],
+          required: true,
         },
       ],
     },
   ],
 }
-

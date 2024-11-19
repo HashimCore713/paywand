@@ -11,25 +11,28 @@ export const ORDERS = `
 `
 
 export const ORDER = `
-  query Order($id: String ) {
-    Orders(where: { id: { equals: $id}}) {
+  query Order($id: String) {
+    Orders(where: { id: { equals: $id } }) {
       docs {
         id
         orderedBy
         items {
-          product ${PRODUCT}
-          title
+          product {
+            id
+            name
+          }
           price
-          sizes
+          quantity
+          selectedSize
         }
         name
         address
         phoneNumber
         email
-        size
         paymentMethod
         status
       }
     }
   }
-`
+`;
+

@@ -6,7 +6,6 @@ export const CART = `cart {
       id
       slug
       price
-      sizes
       priceJSON
       ${META}
     }

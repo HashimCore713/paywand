@@ -32,7 +32,7 @@ const CartItem = ({ product, title, metaImage, qty, size, addItemToCart, fetchPr
   const decrementQty = () => {
     const updatedQty = quantity > 1 ? quantity - 1 : 1
     setQuantity(updatedQty)
-    addItemToCart({ product: productDetails, quantity: Number(updatedQty), size })
+    addItemToCart({ product: productDetails, quantity: Number(updatedQty) })
   }
 
   const incrementQty = () => {
@@ -40,7 +40,7 @@ const CartItem = ({ product, title, metaImage, qty, size, addItemToCart, fetchPr
     if (productDetails.stock > quantity) {
       const updatedQty = quantity + 1
       setQuantity(updatedQty)
-      addItemToCart({ product: productDetails, quantity: Number(updatedQty), size })
+      addItemToCart({ product: productDetails, quantity: Number(updatedQty) })
     } else {
       // Handle case where stock limit is reached
       alert(`Only ${productDetails.stock} items available in stock.`)
@@ -51,7 +51,7 @@ const CartItem = ({ product, title, metaImage, qty, size, addItemToCart, fetchPr
   const enterQty = e => {
     const updatedQty = Number(e.target.value)
     setQuantity(updatedQty)
-    addItemToCart({ product: productDetails, quantity: Number(updatedQty), size })
+    addItemToCart({ product: productDetails, quantity: Number(updatedQty) })
   }
 
   // Calculate subtotal for this item
@@ -93,8 +93,9 @@ const CartItem = ({ product, title, metaImage, qty, size, addItemToCart, fetchPr
               <Price product={productDetails} button={false} />
             </div>
 
+            {/* Display size before quantity */}
             <div className={classes.size}>
-              {size && <p>Size: {size}</p>} {/* Display the selected size */}
+              {size && <p>{size}</p>} 
             </div>
 
             <div className={classes.quantity}>

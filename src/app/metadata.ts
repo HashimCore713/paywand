@@ -8,7 +8,7 @@ const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL),
   twitter: {
     card: 'summary_large_image',
-    creator: '@SpiralGadgets',
+    creator: '@Paywand',
   },
   openGraph: mergeOpenGraph(),
 }

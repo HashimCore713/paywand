@@ -17,7 +17,7 @@ const policies = {
     'https://*.stripe.com',
     'https://paywand.pk',
     'https://www.paywand.pk',
-    'https://paywand.payloadcms.app/',
+    'https://paywand-web.payloadcms.app/',
     'https://raw.githubusercontent.com',
   ],
   'font-src': ["'self'"],
@@ -33,7 +33,7 @@ const policies = {
     'https://api.stripe.com',
     'https://paywand.pk',
     'https://www.paywand.pk/',
-    'https://paywand.payloadcms.app',
+    'https://paywand-web.payloadcms.app',
     'https://maps.googleapis.com',
   ],
 };

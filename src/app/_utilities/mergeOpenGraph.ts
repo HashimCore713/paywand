@@ -4,7 +4,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
   siteName: 'Paywand',
   title: '',
-  description: 'Explore our latest apparel at Paywand.',
+  description: 'Explore our latest apparel and accessories at Paywand.',
   images: [
     {
       url: 'https://paywand.pk/media/metacard.png',

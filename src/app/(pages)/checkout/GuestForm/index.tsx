@@ -45,11 +45,19 @@ export const GuestForm: React.FC<{ delivery: number }> = ({ delivery }) => {
             phoneNumber,
             email,
             paymentMethod: 'cod', // Set payment method to "cod"
-            items: (cart?.items || []).map(({ product, quantity }) => ({
-              product: typeof product === 'string' ? product : product.id,
-              quantity,
-              price: typeof product === 'object' ? product.price : undefined,
-            })),
+            items: (cart?.items || []).map(({ product, quantity, size }) => {
+              //console.log('Item:', { product, quantity, size });
+              // Ensure product is an object and log relevant details
+              const productId = typeof product === 'string' ? product : product.id;
+              const productTitle = typeof product === 'object' ? product.title : undefined;
+              const productPrice = typeof product === 'object' ? product.price : undefined;
+              return {
+                product: productId,
+                quantity,
+                price: productPrice,
+                selectedSize: size,
+              };
+            }),
           }),
         })
 

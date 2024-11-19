@@ -52,7 +52,6 @@ export const PRODUCT = `
   }
 `;
 
-
 export const PRODUCT_PAYWALL = `
   query Product($slug: String, $draft: Boolean) {
     Products(where: { slug: { equals: $slug}}, limit: 1, draft: $draft) {

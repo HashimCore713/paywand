@@ -78,8 +78,10 @@ export default async function Page({ params: { slug = 'home' } }) {
     <React.Fragment>
       {slug === 'home' ? (
         <section>
-          <Hero {...hero} alt="Discover the best in smartphones, laptops, tablets, earphones, smartwatches, accessories, computer gear, and gaming consoles. Trusted tech, just a click away." />
+          <Hero {...hero} alt="Discover the best in shirts,hoodies, and accessories." />
           <Gutter className={classes.home}>
+            <Categories categories={categories} />
+            <HR />
             <NewProducts newProducts={products} /> {/* Updated prop name to match component */}
             <HR />
             <QuickCheckout quickCheckoutProducts={quickproducts} />

@@ -25,98 +25,94 @@ type CartAction =
       type: 'CLEAR_CART'
     }
 
-export const cartReducer = (cart: CartType, action: CartAction): CartType => {
-  switch (action.type) {
-    case 'SET_CART': {
-      return action.payload
-    }
-
-    case 'MERGE_CART': {
-      const { payload: incomingCart } = action
-
-      const syncedItems: CartItem[] = [
-        ...(cart?.items || []),
-        ...(incomingCart?.items || []),
-      ].reduce((acc: CartItem[], item) => {
-        // remove duplicates
-        const productId = typeof item.product === 'string' ? item.product : item?.product?.id
-
-        const indexInAcc = acc.findIndex(({ product }) =>
-          typeof product === 'string' ? product === productId : product?.id === productId,
-        ) // eslint-disable-line function-paren-newline
-
-        if (indexInAcc > -1) {
-          acc[indexInAcc] = {
-            ...acc[indexInAcc],
-            // customize the merge logic here, e.g.:
-            // quantity: acc[indexInAcc].quantity + item.quantity
+    export const cartReducer = (cart: CartType, action: CartAction): CartType => {
+      let updatedCart = { ...cart }
+      console.log('Action received:', action)
+      console.log('Initial Cart State:', cart)
+    
+      switch (action.type) {
+        case 'SET_CART':
+          updatedCart = action.payload
+          console.log('SET_CART Action - New Cart from Payload:', updatedCart)
+          break
+    
+          case 'MERGE_CART':
+            updatedCart.items = [
+              ...(cart?.items || []),
+              ...(action.payload?.items || []),
+            ].reduce((acc: CartItem[], item) => {
+              const productId = typeof item.product === 'string' ? item.product : item.product?.id;
+              const size = item.size;
+          
+              // Find if the item already exists in the accumulator (cart)
+              const indexInAcc = acc.findIndex(({ product, size: existingSize }) =>
+                (typeof product === 'string' ? product === productId : product?.id === productId) && existingSize === size
+              );
+          
+              if (indexInAcc > -1) {
+                // If item exists, update quantity
+                acc[indexInAcc] = {
+                  ...acc[indexInAcc],
+                  quantity: acc[indexInAcc].quantity + item.quantity,
+                };
+              } else {
+                // If item doesn't exist, add new item
+                acc.push(item);
+              }
+              return acc;
+            }, []);
+            break;
+          
+    
+        case 'ADD_ITEM': {
+          const { payload: incomingItem } = action
+          const productId = typeof incomingItem.product === 'string' ? incomingItem.product : incomingItem.product?.id
+          const size = incomingItem.size
+    
+          const indexInCart = cart.items.findIndex(({ product, size: existingSize }) =>
+            (typeof product === 'string' ? product === productId : product?.id === productId) && existingSize === size
+          )
+    
+          if (indexInCart === -1) {
+            console.log('Adding new item to cart:', incomingItem)
+            // Only add item if it doesn't already exist in the cart
+            updatedCart.items = [...cart.items, incomingItem]
+          } else {
+            console.log('Item already in cart, updating quantity:', incomingItem)
+            // If item exists, update quantity (if quantity is provided)
+            updatedCart.items[indexInCart] = {
+              ...updatedCart.items[indexInCart],
+              quantity: incomingItem.quantity > 0 ? incomingItem.quantity : updatedCart.items[indexInCart].quantity,
+            }
           }
-        } else {
-          acc.push(item)
+          break
         }
-        return acc
-      }, [])
-
-      return {
-        ...cart,
-        items: syncedItems,
-      }
-    }
-
-    case 'ADD_ITEM': {
-      // if the item is already in the cart, increase the quantity
-      const { payload: incomingItem } = action
-      const productId =
-        typeof incomingItem.product === 'string' ? incomingItem.product : incomingItem?.product?.id
-
-      const indexInCart = cart?.items?.findIndex(({ product }) =>
-        typeof product === 'string' ? product === productId : product?.id === productId,
-      ) // eslint-disable-line function-paren-newline
-
-      let withAddedItem = [...(cart?.items || [])]
-
-      if (indexInCart === -1) {
-        withAddedItem.push(incomingItem)
-      }
-
-      if (typeof indexInCart === 'number' && indexInCart > -1) {
-        withAddedItem[indexInCart] = {
-          ...withAddedItem[indexInCart],
-          quantity: (incomingItem.quantity || 0) > 0 ? incomingItem.quantity : undefined,
+    
+        case 'DELETE_ITEM': {
+          const indexInCart = cart.items.findIndex(({ product }) =>
+            typeof product === 'string' ? product === action.payload.id : product?.id === action.payload.id
+          )
+    
+          if (indexInCart > -1) {
+            console.log('Deleting item from cart:', action.payload)
+            updatedCart.items = updatedCart.items.filter((_, index) => index !== indexInCart)
+          }
+          break
         }
+    
+        case 'CLEAR_CART':
+          console.log('Clearing the entire cart.')
+          updatedCart.items = []
+          break
+    
+        default:
+          console.log('No action matched.')
+          return cart
       }
-
-      return {
-        ...cart,
-        items: withAddedItem,
-      }
+    
+      console.log('Updated Cart:', updatedCart)
+      // Save the updated cart to localStorage to persist across reloads
+      localStorage.setItem('cart', JSON.stringify(updatedCart))
+      return updatedCart
     }
-
-    case 'DELETE_ITEM': {
-      const { payload: incomingProduct } = action
-      const withDeletedItem = { ...cart }
-
-      const indexInCart = cart?.items?.findIndex(({ product }) =>
-        typeof product === 'string'
-          ? product === incomingProduct.id
-          : product?.id === incomingProduct.id,
-      ) // eslint-disable-line function-paren-newline
-
-      if (typeof indexInCart === 'number' && withDeletedItem.items && indexInCart > -1)
-        withDeletedItem.items.splice(indexInCart, 1)
-
-      return withDeletedItem
-    }
-
-    case 'CLEAR_CART': {
-      return {
-        ...cart,
-        items: [],
-      }
-    }
-
-    default: {
-      return cart
-    }
-  }
-}
+    

@@ -1,14 +1,14 @@
 // next-seo.config.ts
 const config = {
-    title: 'Paywand | Latest Weaving Stories into Styles',
-    description: 'Discover the latest apparel, and accessories at Paywand. Your one-stop shop for all things tech in Pakistan.',
+    title: 'Paywand | Latest Apparel & Accessories',
+    description: 'Discover Premium Hoodies, shirts, and accessories at Paywand. Your one-stop shop for all things tech in Pakistan.',
     openGraph: {
       type: 'website',
       locale: 'en_PK', 
       url: 'https://paywand.pk/',
       site_name: 'Paywand',
-      title: 'Paywand | Weaving Stories into Styles',
-      description: 'Get the best deals on shirts, sweatshirts, hoodies, and accessories at Paywand. Shop online and enjoy fast delivery across Pakistan.',
+      title: 'Paywand | Apparel & Accessories',
+      description: 'Get the best deals on shirts, hoodies, and accessories at Paywand. Shop online and enjoy fast delivery across Pakistan.',
       images: [
         {
           url: 'https://paywand.pk/media/metacard.png',
@@ -26,7 +26,7 @@ const config = {
     additionalMetaTags: [
       {
         name: 'keywords',
-        content: 'shirts, hoodies, sweatshirts, accessories, online shopping, Pakistan',
+        content: 'shirts, hoodies, accessories, online shopping, Pakistan',
       },
       {
         name: 'author',
@@ -52,7 +52,7 @@ const config = {
       },
     ],
     instagram: {
-      username: '@paywand.pk',
+      username: '@paywand',
     },
   };
   

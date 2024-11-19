@@ -11,7 +11,7 @@ import { useCart } from '../../../_providers/Cart'
 
 import classes from './index.module.scss'
 
-export const CheckoutForm: React.FC<{ delivery: number; selectedSize: string | null }> = ({ delivery, selectedSize }) => {
+export const CheckoutForm: React.FC<{ delivery: number }> = ({ delivery }) => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState('')
@@ -34,32 +34,11 @@ export const CheckoutForm: React.FC<{ delivery: number; selectedSize: string | n
     async e => {
       e.preventDefault()
       setIsLoading(true)
-  
+
       try {
         // Calculate total including delivery fee
-        const orderTotal = cartTotal.raw + delivery;
-        
-        const size = selectedSize;
-        console.log("sieieieiieie", size);
-        // Prepare order data
-        const orderData = {
-          total: orderTotal,
-          name,
-          address,
-          phoneNumber,
-          email,
-          paymentMethod: 'cod',
-          items: (cart?.items || []).map(({ product, quantity, size }) => ({
-            product: typeof product === 'string' ? product : product.id,
-            quantity,
-            price: typeof product === 'object' ? product.price : undefined,
-            size, // Add size for each item
-          })),
-        };
-  
-        // Log order data before sending to the server
-        console.log('Order data being sent to server:', orderData);
-  
+        const orderTotal = cartTotal.raw + delivery
+
         // Create the order in Payload
         const orderReq = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/orders`, {
           method: 'POST',
@@ -67,22 +46,39 @@ export const CheckoutForm: React.FC<{ delivery: number; selectedSize: string | n
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(orderData),
-        });
-  
-        if (!orderReq.ok) throw new Error(orderReq.statusText || 'Something went wrong.');
-  
-        const { error: errorFromRes, doc }: { error?: string; doc: Order } = await orderReq.json();
-  
-        if (errorFromRes) throw new Error(errorFromRes);
-  
-        // Log the stored order details
-        console.log('Order successfully stored in the database:', doc);
-  
+          body: JSON.stringify({
+            total: orderTotal,
+            name,
+            address,
+            phoneNumber,
+            email,
+            paymentMethod: 'cod', // Set payment method to "cod"
+            items: (cart?.items || []).map(({ product, quantity, size }) => {
+              //console.log('Item:', { product, quantity, size });
+              // Ensure product is an object and log relevant details
+              const productId = typeof product === 'string' ? product : product.id;
+              const productTitle = typeof product === 'object' ? product.title : undefined;
+              const productPrice = typeof product === 'object' ? product.price : undefined;
+              return {
+                product: productId,
+                quantity,
+                price: productPrice,
+                selectedSize: size,
+              };
+            }),
+          }),
+        })
+
+        if (!orderReq.ok) throw new Error(orderReq.statusText || 'Something went wrong.')
+
+        const { error: errorFromRes, doc }: { error?: string; doc: Order } = await orderReq.json()
+
+        if (errorFromRes) throw new Error(errorFromRes)
+
         // Update product stocks
         await Promise.all(
           cart.items.map(async ({ product, quantity }) => {
-            const productId = typeof product === 'string' ? product : product.id;
+            const productId = typeof product === 'string' ? product : product.id
             const productReq = await fetch(
               `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/${productId}`,
               {
@@ -94,26 +90,24 @@ export const CheckoutForm: React.FC<{ delivery: number; selectedSize: string | n
                   stock: product.stock - quantity,
                 }),
               },
-            );
-  
+            )
+
             if (!productReq.ok) {
-              throw new Error(`Failed to update stock for product ${productId}`);
+              throw new Error(`Failed to update stock for product ${productId}`)
             }
           }),
-        );
-  
-        router.push(`/order-confirmation?order_id=${doc.id}`);
+        )
+
+        router.push(`/order-confirmation?order_id=${doc.id}`)
       } catch (err) {
-        const msg = err instanceof Error ? err.message : 'Something went wrong.';
-        console.error('Error while submitting order:', msg);
-        setError(`Error while submitting order: ${msg}`);
+        const msg = err instanceof Error ? err.message : 'Something went wrong.'
+        setError(`Error while submitting order: ${msg}`)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     },
-    [name, address, phoneNumber, email, cart, cartTotal, delivery, router, selectedSize], // Add selectedSize to dependencies
-  );
-  
+    [name, address, phoneNumber, email, cart, cartTotal, delivery, router],
+  )
 
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
@@ -145,7 +139,7 @@ export const CheckoutForm: React.FC<{ delivery: number; selectedSize: string | n
         <input
           type="text"
           id="address"
-          placeholder="e.g Paywand Outlet Islamabad"
+          placeholder="e.g Shop #3, Bizzon Plaza, F-11 Markaz, Islamabad"
           value={address}
           onChange={e => setAddress(e.target.value)}
           required
@@ -156,7 +150,7 @@ export const CheckoutForm: React.FC<{ delivery: number; selectedSize: string | n
         <input
           type="text"
           id="phoneNumber"
-          placeholder="e.g 03123344556"
+          placeholder="e.g 03215776666"
           value={phoneNumber}
           onChange={e => setPhoneNumber(e.target.value)}
           required
@@ -175,4 +169,3 @@ export const CheckoutForm: React.FC<{ delivery: number; selectedSize: string | n
 }
 
 export default CheckoutForm
-

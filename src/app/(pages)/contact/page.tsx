@@ -11,10 +11,10 @@ import classes from './index.module.scss';
 export default function ContactPage() {
   const metadata: Metadata = {
     title: 'Contact Paywand | Get in Touch for Queries & Support',
-    description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
+    description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your apparel needs and ensure you have the best shopping experience.',
     openGraph: mergeOpenGraph({
       title: 'Contact Paywand | Get in Touch for Queries & Support',
-      description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
+      description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your apparel needs and ensure you have the best shopping experience.',
       url: '/contact',
       type: 'website',
       images: [
@@ -29,7 +29,7 @@ export default function ContactPage() {
     twitter: {
       card: 'summary_large_image',
       title: 'Contact Paywand | Get in Touch for Queries & Support',
-      description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
+      description: 'Reach out to Paywand for any queries, support, or feedback. We’re here to help you with your apparel needs and ensure you have the best shopping experience.',
       images: ['https://paywand.pk/images/contact-us.jpg'],
     },
   };
@@ -58,7 +58,7 @@ export default function ContactPage() {
   return (
     <div className={classes.contact}>
     <Gutter>
-      <h1 className={classes.heading}>Get in Touch with Paywand Team</h1>
+      <h1 className={classes.heading}>Get in Touch with Paywand</h1>
       <p>Have any questions, feedback, or need support? Fill out the form below and our team will get back to you promptly.</p>
       <p>&nbsp;</p>
       <ContactForm onSubmit={handleSubmit} />

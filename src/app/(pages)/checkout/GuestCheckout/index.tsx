@@ -1,4 +1,4 @@
- 'use client'
+'use client'
 
 import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -70,7 +70,7 @@ const GuestCheckout: React.FC = () => {
           <div className={classes.header}>
             <p>Products</p>
             <div className={classes.headerItemDetails}>
-              <p></p>
+              <p className={classes.size}>Size</p>
               <p className={classes.quantity}>Quantity</p>
             </div>
             <p className={classes.subtotal}>Subtotal</p>
@@ -83,6 +83,7 @@ const GuestCheckout: React.FC = () => {
                   quantity,
                   product,
                   product: { title, meta },
+                  size,
                 } = item
 
                 if (!quantity) return null
@@ -98,6 +99,7 @@ const GuestCheckout: React.FC = () => {
                       metaImage={metaImage}
                       quantity={quantity}
                       index={index}
+                      size={size}
                     />
                   </Fragment>
                 )

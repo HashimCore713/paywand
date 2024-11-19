@@ -54,45 +54,46 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (!hasInitialized.current) {
-      hasInitialized.current = true
-
+      hasInitialized.current = true;
+  
       const syncCartFromLocalStorage = async () => {
-        const localCart = localStorage.getItem('cart')
-        const parsedCart = JSON.parse(localCart || '{}')
-
+        const localCart = localStorage.getItem('cart');
+        const parsedCart = JSON.parse(localCart || '{}');
+  
         if (parsedCart?.items && parsedCart?.items?.length > 0) {
           const initialCart = await Promise.all(
-            parsedCart.items.map(async ({ product, quantity }) => {
-              const res = await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/${product}`,
-              )
-              const data = await res.json()
+            parsedCart.items.map(async ({ product, quantity, size }) => {
+              console.log('Item from localStorage:', { product, quantity, size });
+              const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/${product}`);
+              const data = await res.json();
               return {
-                product: data,
+                product: data,   // Ensure full product object is included
                 quantity,
-              }
+                size,            // Include size
+              };
             }),
-          )
-
+          );
+  
           dispatchCart({
             type: 'SET_CART',
             payload: {
               items: initialCart,
             },
-          })
+          });
         } else {
           dispatchCart({
             type: 'SET_CART',
             payload: {
               items: [],
             },
-          })
+          });
         }
-      }
-
-      syncCartFromLocalStorage()
+      };
+  
+      syncCartFromLocalStorage();
     }
-  }, [])
+  }, []);
+  
 
   useEffect(() => {
     if (!hasInitialized.current) return
@@ -126,6 +127,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             ...item,
             product: item?.product?.id,
             quantity: typeof item?.quantity === 'number' ? item?.quantity : 0,
+            size: item?.size, // Include size in the flattened cart
           }
         })
         .filter(Boolean) as CartItem[],
@@ -146,7 +148,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           })
 
           if (req.ok) {
-            localStorage.setItem('cart', '[]')
+            localStorage.setItem('cart', JSON.stringify(flattenedCart));
           }
         }
 
@@ -170,7 +172,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           itemsInCart.find(({ product }) =>
             typeof product === 'string'
               ? product === incomingProduct.id
-              : product?.id === incomingProduct.id,),
+              : product?.id === incomingProduct.id,
+          ),
         )
       }
       return isInCart
@@ -178,12 +181,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [cart],
   )
 
-  const addItemToCart = useCallback(incomingItem => {
-    dispatchCart({
-      type: 'ADD_ITEM',
-      payload: incomingItem,
-    })
-  }, [])
+  const addItemToCart = useCallback(
+    (incomingItem: { product: Product; quantity: number; size?: string }) => {
+      if (!incomingItem.size) {
+        console.warn('Item with undefined size cannot be added to the cart:', incomingItem);
+        return; // Do not dispatch if size is undefined
+      }
+  
+      dispatchCart({
+        type: 'ADD_ITEM',
+        payload: incomingItem,
+      });
+    },
+    [],
+  );
+  
 
   const deleteItemFromCart = useCallback(incomingProduct => {
     dispatchCart({
@@ -233,7 +245,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         hasInitializedCart,
       }}
     >
-      {children && children}
+      {children}
     </Context.Provider>
   )
 }
