@@ -184,17 +184,37 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const addItemToCart = useCallback(
     (incomingItem: { product: Product; quantity: number; size?: string }) => {
       if (!incomingItem.size) {
-        console.warn('Item with undefined size cannot be added to the cart:', incomingItem);
-        return; // Do not dispatch if size is undefined
+        const matchingItemIndex = cart.items.findIndex(
+          (item) =>
+            typeof item.product === 'object' &&
+            item.product.id === incomingItem.product.id
+        );
+  
+        if (matchingItemIndex >= 0) {
+          // Increment the quantity of the matching item
+          const updatedItems = [...cart.items];
+          updatedItems[matchingItemIndex].quantity += 1;
+  
+          dispatchCart({
+            type: 'SET_CART',
+            payload: {
+              items: updatedItems,
+            },
+          });
+  
+          return; // Exit early after updating the quantity
+        }
       }
   
+      // If no match is found or size is defined, add the incoming item to the cart
       dispatchCart({
         type: 'ADD_ITEM',
         payload: incomingItem,
       });
     },
-    [],
+    [cart.items]
   );
+  
   
 
   const deleteItemFromCart = useCallback(incomingProduct => {
